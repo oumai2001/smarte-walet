@@ -42,9 +42,25 @@
             
             <!-- Actions utilisateur -->
             <div class="user-actions">
+                <!-- ⚠️ NOUVEAU - Afficher nom utilisateur -->
+                <?php if (is_logged_in()): ?>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-right: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
+                        <span><?= get_user_name() ?></span>
+                    </div>
+                <?php endif; ?>
+                
                 <button class="icon-btn" id="themeToggle" title="Changer le thème">
                     <i class="fas fa-moon"></i>
                 </button>
+                
+                <!-- ⚠️ NOUVEAU - Bouton déconnexion -->
+                <?php if (is_logged_in()): ?>
+                    <a href="logout.php" class="icon-btn" title="Déconnexion" style="text-decoration: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                <?php endif; ?>
+                
                 <button class="mobile-menu-toggle" id="mobileMenuBtn">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -61,6 +77,19 @@
             </button>
         </div>
         <div class="mobile-nav-links">
+            <!-- ⚠️ NOUVEAU - Nom utilisateur en mobile -->
+            <?php if (is_logged_in()): ?>
+                <div style="padding: 1rem; background: var(--bg-main); border-radius: var(--radius); margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <i class="fas fa-user-circle" style="font-size: 2rem; color: var(--primary);"></i>
+                        <div>
+                            <div style="font-weight: 600; color: var(--text-primary);"><?= get_user_name() ?></div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Utilisateur</div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            
             <a href="index.php" class="<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">
                 <i class="fas fa-home"></i> Dashboard
             </a>
@@ -70,6 +99,13 @@
             <a href="expenses.php" class="<?= basename($_SERVER['PHP_SELF']) == 'expenses.php' || basename($_SERVER['PHP_SELF']) == 'edit_expense.php' ? 'active' : '' ?>">
                 <i class="fas fa-arrow-down"></i> Dépenses
             </a>
+            
+            <!-- ⚠️ NOUVEAU - Déconnexion en mobile -->
+            <?php if (is_logged_in()): ?>
+                <a href="logout.php" style="border-top: 1px solid var(--border); margin-top: 1rem; padding-top: 1rem; color: var(--danger);">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            <?php endif; ?>
         </div>
     </nav>
     
