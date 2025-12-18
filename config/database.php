@@ -1,9 +1,14 @@
 <?php
+// Démarrer la session si elle n'est pas déjà démarrée
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Configuration de la base de données
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'smarte_welet');
+define('DB_NAME', 'smarte_walet');
 
 // Connexion à la base de données
 try {
@@ -34,4 +39,23 @@ function validate_date($date) {
     $d = DateTime::createFromFormat('Y-m-d', $date);
     return $d && $d->format('Y-m-d') === $date;
 }
-?>
+
+// ======= FONCTIONS D'AUTHENTIFICATION =======
+function is_logged_in() {
+    return isset($_SESSION['user_id']);
+}
+
+function require_login() {
+    if (!is_logged_in()) {
+        header('Location: login.php');
+        exit;
+    }
+}
+
+function get_user_id() {
+    return $_SESSION['user_id'] ?? null;
+}
+
+function get_user_name() {
+    return $_SESSION['user_name'] ?? 'Utilisateur';
+}
