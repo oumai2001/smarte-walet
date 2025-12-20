@@ -34,16 +34,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Le montant doit être un nombre positif";
     } elseif (!validate_date($date)) {
         $error = "Date invalide";
-    } else {
-        // ⚠️ MODIFIÉ - Vérifier que c'est bien le revenu de l'utilisateur
-        $stmt = $pdo->prepare("UPDATE incomes SET description = ?, amount = ?, income_date = ?, category_id = ? WHERE id = ? AND user_id = ?");
-        if ($stmt->execute([$description, $amount, $date, $category_id, $id, get_user_id()])) {
+    } else {    
+        $card_id = !empty($_POST['card_id']) ? clean_input($_POST['card_id']) : null;
+        $stmt = $pdo->prepare("UPDATE incomes SET description = ?, amount = ?, income_date = ?, category_id = ?, card_id = ? WHERE id = ? AND user_id = ?");
+if ($stmt->execute([$description, $amount, $date, $category_id, $card_id, $id, get_user_id()])) {
             header('Location: incomes.php');
             exit;
         } else {
             $error = "Erreur lors de la modification";
         }
     }
+
 }
 
 // Récupérer les catégories
@@ -88,7 +89,20 @@ include 'includes/header.php';
                 <?php endforeach; ?>
             </select>
         </div>
-        
+        <div class="form-group">
+    <label>Carte</label>
+   <select name="card_id">
+    <option value="">-- Aucune --</option>
+    <?php 
+    $cards = get_user_cards(get_user_id(), $pdo);
+    foreach ($cards as $card): ?>
+        <option value="<?= $card['id'] ?>" <?= $income['card_id'] == $card['id'] ? 'selected' : '' ?>>
+            <?= htmlspecialchars($card['card_name']) ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
+</div>
         <button type="submit" class="btn btn-success">
             <i class="fas fa-save"></i> Enregistrer
         </button>

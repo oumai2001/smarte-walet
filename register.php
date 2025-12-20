@@ -42,7 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Générer un OTP
                 $otp_code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
                 $expires_at = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+               // Générer unique_id
+$unique_id = 'SW' . str_pad($user_id, 6, '0', STR_PAD_LEFT);
+$stmt = $pdo->prepare("UPDATE users SET unique_id = ? WHERE id = ?");
+$stmt->execute([$unique_id, $user_id]);
 
+// Créer une carte par défaut
+$stmt = $pdo->prepare("INSERT INTO cards (user_id, card_name, bank_name, is_primary) VALUES (?, 'Carte Principale', 'Ma Banque', 1)");
+$stmt->execute([$user_id]);
                 $stmt = $pdo->prepare("INSERT INTO otp_codes (user_id, code, expires_at) VALUES (?, ?, ?)");
                 $stmt->execute([$user_id, $otp_code, $expires_at]);
 

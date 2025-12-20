@@ -38,6 +38,14 @@
                     <i class="fas fa-arrow-down"></i>
                     <span>Dépenses</span>
                 </a>
+                <a href="cards.php" class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'cards.php' ? 'active' : '' ?>">
+    <i class="fas fa-credit-card"></i>
+    <span>Mes Cartes</span>
+</a>
+<a href="transfers.php" class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'transfers.php' || basename($_SERVER['PHP_SELF']) == 'transfer_money.php' ? 'active' : '' ?>">
+    <i class="fas fa-exchange-alt"></i>
+    <span>Transferts</span>
+</a>
             </nav>
             
             <!-- Actions utilisateur -->
@@ -99,6 +107,12 @@
             <a href="expenses.php" class="<?= basename($_SERVER['PHP_SELF']) == 'expenses.php' || basename($_SERVER['PHP_SELF']) == 'edit_expense.php' ? 'active' : '' ?>">
                 <i class="fas fa-arrow-down"></i> Dépenses
             </a>
+            <a href="cards.php" class="<?= basename($_SERVER['PHP_SELF']) == 'cards.php' ? 'active' : '' ?>">
+    <i class="fas fa-credit-card"></i> Mes Cartes
+</a>
+<a href="transfers.php" class="<?= basename($_SERVER['PHP_SELF']) == 'transfers.php' ? 'active' : '' ?>">
+    <i class="fas fa-exchange-alt"></i> Transferts
+</a>
             
             <!-- ⚠️ NOUVEAU - Déconnexion en mobile -->
             <?php if (is_logged_in()): ?>
